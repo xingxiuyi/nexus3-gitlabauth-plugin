@@ -1,19 +1,16 @@
 # Nexus3 Gitlab Auth Plugin
-This plugin adds a Gitlab realm to Sonatype Nexus OSS and enables you to authenticate with Gitlab Users and authorize with Gitlab Groups.
+This plugin adds a Gitlab realm to Sonatype Nexus OSS and enables you to authenticate with Gitlab Users and authorize with Nexus Roles.
 
 The plugin does not implement a full OAuth flow, instead you use your gitlab user name + an gitlab read_user token you generated in your account to log in to the nexus.
 This works through the web as well as through tools like maven, gradle etc.
 
 ## Setup
 
-#### 1. Activate the Realm
-Log in to your nexus and go to _Administration > Security > Realms_. Move the Gitlab Realm to the right. The realm order in the form determines the order of the realms in your authentication flow. We recommend putting Gitlab _after_ the built-in realms:
+#### Activate the Realm
+Log in to your nexus and go to _Administration > Security > Realms_. Move the Gitlab Realm to the right. The realm order in the form determines the order of the realms in your authentication flow. 
+We recommend putting Gitlab _after_ the built-in realms:
 
-#### 2. Group / Roles Mapping
-When logged in through Gitlab, all groups the user is a member of will be mapped into roles :
-
-
-You need to manually create these roles in _Administration > Security > Roles > (+) Create Role > Nexus Role_ in order to assign them the desired privileges. The _Role ID_ should map to the _group name_. Note that by default nobody is allowed to login (authenticate).
+![nexus3-gitlab-auth](images/nexus3-gitlab-auth.png)
 
 ## Usage
 
@@ -43,8 +40,8 @@ The following lines will:
 - add the plugin to the `karaf` `startup.properties`.
 ```shell
 mkdir -p /opt/sonatype/nexus/system/fr/auchan/ &&\
-wget -O /opt/sonatype/nexus/system/fr/auchan/nexus3-gitlabauth-plugin-1.1.0.jar https://github.com/auchanretailfrance/nexus3-gitlabauth-plugin/releases/download/1.1.0/nexus3-gitlabauth-plugin-1.1.0.jar &&\
-echo "mvn\:fr.auchan/nexus3-gitlabauth-plugin/1.1.0 = 200" >> /opt/sonatype/nexus/etc/karaf/startup.properties
+wget -O /opt/sonatype/nexus/system/fr/auchan/nexus3-gitlabauth-plugin-1.1.1.jar https://github.com/auchanretailfrance/nexus3-gitlabauth-plugin/releases/download/1.1.0/nexus3-gitlabauth-plugin-1.1.0.jar &&\
+echo "mvn\:fr.auchan/nexus3-gitlabauth-plugin/1.1.1 = 200" >> /opt/sonatype/nexus/etc/karaf/startup.properties
 ```
 
 #### 2. Create configuration
@@ -55,13 +52,13 @@ Within the file you can configure the following properties:
 |Property        |Description                              |[Default](https://github.com/larscheid-schmitzhermes/nexus3-gitlabauth-plugin/blob/master/src/main/java/fr/auchan/nexus3/github/oauth/plugin/configuration/GithubOauthConfiguration.java)|
 |---             |---                                      |---    |
 |`gitlab.api.url`|URL of the Gitlab API to operate against.|`https://gitlab.com`|
-|`gitlab.api.key`|An admin sudo API key to list groups of users.|
+|`nexus.defaultRoles`|The roles that all authenticated users are placed in.|
 |`gitlab.principal.cache.ttl`|[Java Duration](https://docs.oracle.com/javase/8/docs/api/java/time/Duration.html#parse-java.lang.CharSequence-) for how long a given Access will be cached for. This is a tradeoff of how quickly access can be revoked and how quickly a Gitlab API will be called!|`PT1M` (1 Minute)|----|
 
 This is what an example file would look like:
 ```properties
 gitlab.api.url=https://gitlab.com
-gitlab.api.key=XXXXXXXXXXXXXXXXXXXXX
+nexus.defaultRoles=maven-deploy
 gitlab.principal.cache.ttl=PT1M
 ```
 

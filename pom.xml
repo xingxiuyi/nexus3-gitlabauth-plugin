@@ -4,7 +4,7 @@
 
     <groupId>fr.auchan</groupId>
     <artifactId>nexus3-gitlabauth-plugin</artifactId>
-    <version>1.1.1-SNAPSHOT</version>
+    <version>1.1.1</version>
 
     <parent>
         <groupId>org.sonatype.nexus.plugins</groupId>
@@ -21,6 +21,12 @@
     <packaging>bundle</packaging>
 
     <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.8</version>
+        </dependency>
+
         <dependency>
             <groupId>org.sonatype.nexus</groupId>
             <artifactId>nexus-plugin-api</artifactId>

@@ -48,12 +48,14 @@ public class GitlabAuthenticatingRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         GitlabPrincipal principal = (GitlabPrincipal) principals.getPrimaryPrincipal();
-        LOGGER.info("doGetAuthorizationInfo for user {} with roles {}", principal.getUsername(), principal.getGroups().stream().collect(Collectors.joining()));
-        return new SimpleAuthorizationInfo(principal.getGroups());
+        LOGGER.info("doGetAuthorizationInfo for user {} with roles {}", principal.getUsername(), principal.getDefaultRoles().stream().collect(Collectors.joining()));
+        return new SimpleAuthorizationInfo(principal.getDefaultRoles());
     }
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+        LOGGER.info("doGetAuthenticationInfo [begin]");
+
         if (!(token instanceof UsernamePasswordToken)) {
             throw new UnsupportedTokenException(String.format("Token of type %s  is not supported. A %s is required.",
                     token.getClass().getName(), UsernamePasswordToken.class.getName()));
@@ -70,6 +72,12 @@ public class GitlabAuthenticatingRealm extends AuthorizingRealm {
             LOGGER.warn("Failed authentication", e);
             return null;
         }
+
+        if (authenticatedPrincipal == null){
+            LOGGER.warn("Failed authentication for {}", t.getUsername());
+        }
+
+        LOGGER.info("doGetAuthenticationInfo [end]");
 
         return createSimpleAuthInfo(authenticatedPrincipal, t);
     }

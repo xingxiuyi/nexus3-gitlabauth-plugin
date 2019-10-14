@@ -5,22 +5,22 @@ import java.util.Set;
 
 public class GitlabPrincipal implements Serializable {
     private String username;
-    private Set<String> groups;
+    private Set<String> defaultRoles;
+
+    public Set<String> getDefaultRoles() {
+        return defaultRoles;
+    }
+
+    public void setDefaultRoles(Set<String> defaultRoles) {
+        this.defaultRoles = defaultRoles;
+    }
 
     public void setUsername(String username) {
         this.username = username;
     }
 
-    public void setGroups(Set<String> groups) {
-        this.groups = groups;
-    }
-
     public String getUsername() {
         return username;
-    }
-
-    public Set<String> getGroups() {
-        return groups;
     }
 
     @Override

@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.Duration;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
@@ -25,10 +28,10 @@ public class GitlabAuthConfiguration {
 
     private static final String GITLAB_API_URL_KEY = "gitlab.api.url";
 
-    private static final String GITLAB_SUDO_API_KEY_KEY = "gitlab.api.key";
+    private static final String NEXUS_DEFAULT_ROLES = "nexus.defaultRoles";
 
     private static final String GITLAB_PRINCIPAL_CACHE_TTL_KEY = "gitlab.principal.cache.ttl";
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(GitlabAuthConfiguration.class);
 
     private Properties configuration;
@@ -48,8 +51,11 @@ public class GitlabAuthConfiguration {
         return configuration.getProperty(GITLAB_API_URL_KEY, DEFAULT_GITLAB_URL);
     }
 
-    public String getGitlabApiKey() {
-        return configuration.getProperty(GITLAB_SUDO_API_KEY_KEY);
+    public Set<String> getDefaultRoles() {
+        String defaultRoles = configuration.getProperty(NEXUS_DEFAULT_ROLES);
+        String [] defaultRolesList = defaultRoles.split(",");
+        Set<String> defaultRolesSet = new HashSet<>(Arrays.asList(defaultRolesList));
+        return defaultRolesSet;
     }
 
     public Duration getPrincipalCacheTtl() {
