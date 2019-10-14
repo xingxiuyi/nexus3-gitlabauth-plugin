@@ -23,7 +23,7 @@ public class GitlabApiClient {
 
     private GitlabAPI client;
     private GitlabAuthConfiguration configuration;
-    // Cache token lookups to reduce the load on Github's User API to prevent hitting the rate limit.
+    // Cache token lookups to reduce the load on GitLab's User API to prevent hitting the rate limit.
     private Cache<String, GitlabPrincipal> tokenToPrincipalCache;
 
     public GitlabApiClient() {
@@ -83,7 +83,7 @@ public class GitlabApiClient {
         }
 
         if (gitlabUser == null || !loginName.equals(gitlabUser.getEmail())) {
-            throw new GitlabAuthenticationException("Given username not found or does not match Github Username!");
+            throw new GitlabAuthenticationException("Given username not found or does not match GitLab Username!");
         }
 
         GitlabPrincipal principal = new GitlabPrincipal();
