@@ -40,7 +40,7 @@ The following lines will:
 - add the plugin to the `karaf` `startup.properties`.
 ```shell
 mkdir -p /opt/sonatype/nexus/system/fr/auchan/ &&\
-wget -O /opt/sonatype/nexus/system/fr/auchan/nexus3-gitlabauth-plugin-1.1.1.jar https://github.com/auchanretailfrance/nexus3-gitlabauth-plugin/releases/download/1.1.0/nexus3-gitlabauth-plugin-1.1.0.jar &&\
+wget -O /opt/sonatype/nexus/system/fr/auchan//nexus3-gitlabauth-plugin/1.1.1/nexus3-gitlabauth-plugin-1.1.1.jar https://github.com/donhui/nexus3-gitlabauth-plugin/releases/download/1.1.1/nexus3-gitlabauth-plugin-1.1.1.jar &&\
 echo "mvn\:fr.auchan/nexus3-gitlabauth-plugin/1.1.1 = 200" >> /opt/sonatype/nexus/etc/karaf/startup.properties
 ```
 
