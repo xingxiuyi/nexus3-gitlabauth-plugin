@@ -71,12 +71,10 @@ public class GitlabApiClient {
     }
 
     private GitlabPrincipal doAuthz(String loginName, char[] token) throws GitlabAuthenticationException {
-        LOGGER.info("GitlabApiClient doAuthz for: {} [begin]", loginName);
         GitlabUser gitlabUser;
         try {
             GitlabAPI gitlabAPI = GitlabAPI.connect(configuration.getGitlabApiUrl(), String.valueOf(token));
             gitlabUser = gitlabAPI.getUser();
-            LOGGER.info("gitlabUser Name:" + gitlabUser.getName());
         } catch (Exception e) {
             LOGGER.error(e.toString());
             throw new GitlabAuthenticationException(e);
