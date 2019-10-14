@@ -28,7 +28,9 @@ public class GitlabAuthConfiguration {
 
     private static final String GITLAB_API_URL_KEY = "gitlab.api.url";
 
-    private static final String NEXUS_DEFAULT_ROLES = "nexus.defaultRoles";
+    private static final String NEXUS_DEFAULT_ROLES_KEY = "nexus.defaultRoles";
+
+    private static final String NEXUS_DEFAULT_ROLES_VALUE = "maven-deploy";
 
     private static final String GITLAB_PRINCIPAL_CACHE_TTL_KEY = "gitlab.principal.cache.ttl";
 
@@ -52,7 +54,7 @@ public class GitlabAuthConfiguration {
     }
 
     public Set<String> getDefaultRoles() {
-        String defaultRoles = configuration.getProperty(NEXUS_DEFAULT_ROLES);
+        String defaultRoles = configuration.getProperty(NEXUS_DEFAULT_ROLES_KEY, NEXUS_DEFAULT_ROLES_VALUE);
         String [] defaultRolesList = defaultRoles.split(",");
         Set<String> defaultRolesSet = new HashSet<>(Arrays.asList(defaultRolesList));
         return defaultRolesSet;

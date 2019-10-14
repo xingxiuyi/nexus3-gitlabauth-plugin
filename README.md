@@ -34,8 +34,8 @@ For the following commands we assume your nexus installation resides in `/opt/so
 #### 1. Download and install
 
 The following lines will:
-- create a directory in the `nexus` / `kafka` maven repository
-- download the latest release from gitlab
+- create a directory in the `nexus` / `karaf` maven repository
+- download the latest release from GitHub
 - unzip the releae to the maven repository
 - add the plugin to the `karaf` `startup.properties`.
 ```shell
@@ -52,7 +52,7 @@ Within the file you can configure the following properties:
 |Property        |Description                              |[Default](https://github.com/larscheid-schmitzhermes/nexus3-gitlabauth-plugin/blob/master/src/main/java/fr/auchan/nexus3/github/oauth/plugin/configuration/GithubOauthConfiguration.java)|
 |---             |---                                      |---    |
 |`gitlab.api.url`|URL of the Gitlab API to operate against.|`https://gitlab.com`|
-|`nexus.defaultRoles`|The roles that all authenticated users are placed in.|
+|`nexus.defaultRoles`|The roles that all authenticated users are placed in.|maven-deploy|
 |`gitlab.principal.cache.ttl`|[Java Duration](https://docs.oracle.com/javase/8/docs/api/java/time/Duration.html#parse-java.lang.CharSequence-) for how long a given Access will be cached for. This is a tradeoff of how quickly access can be revoked and how quickly a Gitlab API will be called!|`PT1M` (1 Minute)|----|
 
 This is what an example file would look like:
