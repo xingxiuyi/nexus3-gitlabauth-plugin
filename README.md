@@ -1,3 +1,5 @@
+![1.0.1 downloads](https://img.shields.io/github/downloads/donhui/nexus3-gitlabauth-plugin/1.1.1/total)
+
 # Nexus3 Gitlab Auth Plugin
 This plugin adds a Gitlab realm to Sonatype Nexus OSS and enables you to authenticate with Gitlab Users and authorize with Nexus Roles.
 
