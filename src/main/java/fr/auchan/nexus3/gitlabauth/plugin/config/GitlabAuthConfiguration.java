@@ -1,21 +1,16 @@
 package fr.auchan.nexus3.gitlabauth.plugin.config;
 
+import com.google.inject.Singleton;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.annotation.PostConstruct;
+import javax.inject.Named;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.Duration;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Properties;
-import java.util.Set;
-
-import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.inject.Singleton;
+import java.util.*;
 
 @Singleton
 @Named
@@ -31,6 +26,10 @@ public class GitlabAuthConfiguration {
     private static final String NEXUS_DEFAULT_ROLES_KEY = "nexus.defaultRoles";
 
     private static final String NEXUS_DEFAULT_ROLES_VALUE = "maven-deploy";
+
+    private static final String NEXUS_MATCH_ROLES_KEY = "nexus.matchRoles";
+
+    private static final String NEXUS_MATCH_ROLES_VALUE = "^gitlab-[\\S]*";
 
     private static final String GITLAB_PRINCIPAL_CACHE_TTL_KEY = "gitlab.principal.cache.ttl";
 
@@ -55,12 +54,18 @@ public class GitlabAuthConfiguration {
 
     public Set<String> getDefaultRoles() {
         String defaultRoles = configuration.getProperty(NEXUS_DEFAULT_ROLES_KEY, NEXUS_DEFAULT_ROLES_VALUE);
-        String [] defaultRolesList = defaultRoles.split(",");
+        String[] defaultRolesList = defaultRoles.split(",");
         Set<String> defaultRolesSet = new HashSet<>(Arrays.asList(defaultRolesList));
         return defaultRolesSet;
+    }
+
+    public Set<String> getMatchRoles() {
+        String matchRoles = configuration.getProperty(NEXUS_MATCH_ROLES_KEY, NEXUS_MATCH_ROLES_VALUE);
+        return new HashSet<>(Collections.singletonList(matchRoles));
     }
 
     public Duration getPrincipalCacheTtl() {
         return Duration.parse(configuration.getProperty(GITLAB_PRINCIPAL_CACHE_TTL_KEY, DEFAULT_PRINCIPAL_CACHE_TTL.toString()));
     }
+
 }

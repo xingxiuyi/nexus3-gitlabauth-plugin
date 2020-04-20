@@ -49,7 +49,7 @@ public class GitlabApiClient {
 
     private void initPrincipalCache() {
         tokenToPrincipalCache = CacheBuilder.newBuilder()
-            .expireAfterWrite(configuration.getPrincipalCacheTtl().toMillis(), TimeUnit.MILLISECONDS).build();
+                .expireAfterWrite(configuration.getPrincipalCacheTtl().toMillis(), TimeUnit.MILLISECONDS).build();
     }
 
     public GitlabPrincipal authz(String login, char[] token) throws GitlabAuthenticationException {
@@ -80,15 +80,17 @@ public class GitlabApiClient {
             throw new GitlabAuthenticationException(e);
         }
 
-        if (gitlabUser == null || !loginName.equals(gitlabUser.getEmail())) {
+        if (gitlabUser == null || !loginName.equals(gitlabUser.getUsername())) {
             throw new GitlabAuthenticationException("Given username not found or does not match GitLab Username!");
         }
 
         GitlabPrincipal principal = new GitlabPrincipal();
 
-        principal.setUsername(gitlabUser.getEmail());
+        principal.setUsername(gitlabUser.getUsername());
 
         principal.setDefaultRoles(configuration.getDefaultRoles());
+
+        principal.setMatchRoles(configuration.getMatchRoles());
 
         return principal;
     }
